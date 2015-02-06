@@ -205,7 +205,14 @@ module Middleman
       end
 
       def content_type
-        @content_type ||= MIME::Types.of(path).first
+        @content_type ||= begin
+          type = MIME::Types.of(path).first
+          if type == "text/html"
+            "text/html;charset=utf-8"
+          else
+            type
+          end
+        end
       end
 
       def caching_policy
